@@ -9,13 +9,15 @@ import java.io.File;
 
 /**
  * Created by satyad on 26/04/17.
+ * Util class to configure hibernate configuration and to obtain sessionFactory instance.
+ * Creating this class as singleton class just to practice the pattern { of-course we are not forming the class object as such..! }
  */
 public class HibernateUtil {
 
     private static SessionFactory sessionFactory;
     private static ServiceRegistry serviceRegistryObj;
 
-    public HibernateUtil() {
+    private HibernateUtil() {
 
     }
 

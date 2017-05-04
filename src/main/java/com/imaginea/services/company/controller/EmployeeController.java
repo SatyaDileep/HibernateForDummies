@@ -1,6 +1,7 @@
 package com.imaginea.services.company.controller;
 
 import com.imaginea.services.company.model.Employee;
+import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -9,6 +10,8 @@ import java.util.List;
  */
 public interface EmployeeController {
 
-    public List<Employee> fetchEmployees();
+    List<Employee> fetchEmployees(SessionFactory sessionFactory);
+
+    Employee createEmployee(SessionFactory sessionFactory, Employee employee);
 
 }

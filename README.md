@@ -26,3 +26,5 @@ Mapping and configuration are the heart for any hibernate application.
 - Mapping is generally taken through Annotations / XML. There can be multiple mapping files { no. of POJO's=no. of mapping files}
 - Using annotations is more simpler. Mapping config contains the mapping between java object and database columns which tells hibernate which kind of value to be stored in the db.
 - Mapping config is then attached in configuration file. Configuration file is generally XML, older versions properties file is also used for this purpose but xml is preferred.
+
+-- This example is about company consisting of employees and departments. We are using xml file for hibernate configuration and annotations for orm

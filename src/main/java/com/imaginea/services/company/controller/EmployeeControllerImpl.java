@@ -2,9 +2,10 @@ package com.imaginea.services.company.controller;
 
 import com.imaginea.services.company.model.Employee;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
-import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,18 +14,46 @@ import java.util.List;
 public class EmployeeControllerImpl implements EmployeeController {
 
     final static Logger logger = Logger.getLogger(EmployeeControllerImpl.class);
-    // path to the hibernate configuration file.. the default file name hibernate looks for is hibernate.cfg.xml
-    private static File configFile = new File("src/companydb.cfg.xml");
 
-    public static void main(String[] args) {
-        String log4jConfPath = "src/log4j.properties";
-        PropertyConfigurator.configure(log4jConfPath);
-        System.out.println("building session factory");
-        logger.error(" /// hey there");
-        System.exit(0);
+    /**
+     * Method to get all employees from the database
+     *
+     * @param sessionFactoryInstance
+     * @return
+     */
+    public List<Employee> fetchEmployees(SessionFactory sessionFactoryInstance) {
+        Session currentSession = sessionFactoryInstance.openSession();
+        try {
+            logger.info("Querying all employees details..!");
+            return currentSession.createQuery("from Employee").list();
+        } finally {
+            currentSession.close();
+        }
     }
 
-    public List<Employee> fetchEmployees() {
-        return null;
+    /**
+     * Creates new Employee instance
+     *
+     * @param sessionFactory
+     * @param employee
+     * @return
+     */
+    public Employee createEmployee(SessionFactory sessionFactory, Employee employee) {
+        logger.info("creating employee..!");
+        Employee createdEmp;
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            Serializable obj = session.save(employee);
+            createdEmp = (Employee) session.get(Employee.class, obj);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error("Exception occured due to " + e.getMessage());
+            return null;
+        } finally {
+            session.close();
+        }
+        return createdEmp;
     }
+
 }
